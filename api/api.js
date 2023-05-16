@@ -1,3 +1,17 @@
+/* const api = async() => {
+    try{
+        const res = await fetch ('');
+        const data = await res.json();
+        console.log(data);
+    } catch (error){
+        console.log(error);
+    }
+
+}
+export default{
+    api
+} */
+
 const getapi = async ()=>{
     let config = {
         method: "GET",

@@ -14,27 +14,36 @@ export default class myButton extends HTMLElement{
         (e.type === "submit") ? this.obtain(e)
         : undefined;
     }
-
+    
     obtain(e){
         e.preventDefault();
+
+        let uri = "http://localhost/SkylAb-177/php/api.php";
+
         console.log("fsfs");
         let ws = new Worker("../config/ws.js", {type: "module"});
+
+        ws.postMessage(uri);
         
-        let data = Object.fromEntries(new FormData(e.target))
+        /* ws.addEventListener("message", (e)=>{
+            console.log(e.data);
+        }) */
         
+       /*  let data = Object.fromEntries(new FormData(e.target))
+        console.log(data);
         switch (e.submitter.dataset.valor){
             case "get":
                 ws.postMessage({type: "api"});
                 break;
             default:
                 break;
-        }
+        } */
 
-        ws.addEventListener("message", (e)=>{
+       /*  ws.addEventListener("message", (e)=>{
             console.log(e.data);
             ws.terminate();
-        })
-        console.log(ws);
+        }) */
+        // console.log(ws);
     }
 
     static get observedAttributes(){
