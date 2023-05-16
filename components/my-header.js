@@ -11,18 +11,45 @@ export default class myButton extends HTMLElement{
     }
 
     handleEvent(e){
-        (e.type === "click") ? this.obtain(e)
+        (e.type === "submit") ? this.obtain(e)
         : undefined;
     }
+
     obtain(e){
-        console.log(e);
         e.preventDefault();
+        console.log("fsfs");
+        let ws = new Worker("../config/ws.js", {type: "module"});
+        
+        let data = Object.fromEntries(new FormData(e.target))
+        
+        switch (e.submitter.dataset.valor){
+            case "get":
+                ws.postMessage({type: "api"});
+                break;
+            default:
+                break;
+        }
+
+        ws.addEventListener("message", (e)=>{
+            console.log(e.data);
+            ws.terminate();
+        })
+        console.log(ws);
     }
+
+    static get observedAttributes(){
+        return ['data-accion'];
+    }
+    attributeChangedCallback(name,old,now){
+        console.log(name,old,now);
+        console.log(this.dataset.accion);
+    }
+
     connectedCallback(){
         Promise.resolve(myButton.components()).then(html=>{
             this.shadowRoot.innerHTML = html;
-            this.MyHead = this.shadowRoot.querySelector(".but")
-            this.MyHead.addEventListener("click", this.handleEvent.bind(this))
+            this.button = this.shadowRoot.querySelector("#but")
+            this.button.addEventListener("submit", this.handleEvent.bind(this))
         })
     }
 }
